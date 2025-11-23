@@ -31,7 +31,7 @@ tensorflow
 rasterstats
 ```
 
-##🌾 Data
+## 🌾 Data
 
 The dataset includes:
 
@@ -45,41 +45,49 @@ plots_1.shp & plots_2.shp → Plot boundaries
 
 Data was originally sourced from DroneMapper's GitHub.
 
-##📊 Feature Engineering
+## 📊 Feature Engineering
 
 1. Mask invalid values
 
 Elevation < 0 → NaN
+
 Thermal values ≤ 0 → NaN and converted to °C
 
 2. Compute NDVI
 
 ```json
 ndvi = (NIR - Red) / (NIR + Red)
+
 ndvi = np.where(np.isnan(ndvi), 0, ndvi)
 ```
 
 3. Zonal statistics per plot
 
 Mean NDVI
+
 Mean Elevation
+
 Mean Thermal
+
 Mean DTM
 
 4. Synthetic Target Variable
 
 Healthy crops (NDVI between 0.4–0.8) → 1
+
 Others → 0
 
-##⚖️ Handling Class Imbalance
+## ⚖️ Handling Class Imbalance
 
 The dataset was slightly imbalanced:
+
 0 (unhealthy crops) : 78
+
 1 (healthy crops)   : 54
 
 undersampled the majority class to create a balanced dataset.
 
-##🧠 Neural Network Model
+## 🧠 Neural Network Model
 
 Architecture:
 ```json
@@ -95,14 +103,14 @@ model = Sequential([
 ])
 ```
 
-##🏋️ Training the Model
+## 🏋️ Training the Model
 
 Epochs: 100
 Batch size: 32
 Validation split: 20%
 Model achieved strong performance on the validation set.
 
-##📈 Evaluation Metrics
+## 📈 Evaluation Metrics
 ```json
 from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 ```
@@ -110,11 +118,14 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_a
 Accuracy: from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 
 Accuracy: 0.9090909090909091
+
 Precision: 1.0
+
 Recall: 0.8333333333333334
+
 ROC AUC Score: 1.0
 
-##Confusion Matrix
+## Confusion Matrix
 ```json
 import seaborn as sns
 import matplotlib.pyplot as plt
